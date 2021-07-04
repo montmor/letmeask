@@ -7,7 +7,16 @@ import './Home.scss';
 
 import { useHistory } from "react-router-dom";
 
+<<<<<<< HEAD
 import { useAuth } from "../../hooks/useAuth";
+=======
+import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { useContext } from 'react';
+
+import { useAuth } from "../../hooks/useAuth";
+
+
+>>>>>>> 8e34834c33268bed9b8d5e7b804560d4ca43847c
 
 export function Home() {
     const history = useHistory();
