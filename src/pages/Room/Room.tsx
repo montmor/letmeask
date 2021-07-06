@@ -3,13 +3,27 @@ import logoImg from "../../assets/images/logo.svg";
 import { Button } from "../../components/Button/Button";
 import { RoomCode } from "../../components/RoomCode/RoomCode";
 
+import { useParams } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+
+type RoomParams = {
+    id: string;
+}
+
 export function Room() {
+    const params = useParams<RoomParams>();
+    const history = useHistory();
+
+    function handleRedirectHome() {
+        history.push("/");
+    }
+
     return (
         <div id="page-room">
             <header>
-                <div className="content">
-                    <img src={logoImg} alt="Letmeask" />
-                    <RoomCode code="-Mdt8gSlmcI2VTKmuEzl" />
+                <div className="content">    
+                    <img src={logoImg} alt="Letmeask" onClick={handleRedirectHome} />
+                    <RoomCode code={params.id} />
                 </div>
             </header>
             <main>

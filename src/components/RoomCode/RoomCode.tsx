@@ -1,6 +1,5 @@
 import './RoomCode.scss';
 import copyImg from "../../assets/images/copy.svg";
-import { useState } from "react";
 
 type RoomCodeProps = {
     code: string;
@@ -8,6 +7,7 @@ type RoomCodeProps = {
 
 export function RoomCode(props: RoomCodeProps) {
     function copyRoomCodeToClipboard() {
+        
         navigator.clipboard.writeText(props.code);
         
         let x = document.getElementById("snackbar") as any;
