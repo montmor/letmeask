@@ -5,12 +5,33 @@ import { RoomCode } from "../../components/RoomCode/RoomCode";
 
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { database } from "../../services/firebase/firebase";
 
 type RoomParams = {
     id: string;
+}
+
+type FirebaseQuestions = Record<string, {
+    author: {
+        name: string;
+        avatar: string;
+    }
+    content: string;
+    isAnsered: boolean;
+    isHighLighted: boolean;
+}>
+
+type Question = {
+    id: string,
+    author: {
+        name: string;
+        avatar: string;
+    }
+    content: string;
+    isAnsered: boolean;
+    isHighLighted: boolean;
 }
 
 export function Room() {
@@ -19,6 +40,33 @@ export function Room() {
     const roomId = params.id;
     const [newQuestion, setNewQuestion] = useState("");
     const { user } = useAuth();
+    const [questions, setQuestions] = useState<Question[]>([]);
+    const [title, setTitle] = useState("");
+
+    //É um Hook que dispara um evento, quando alguma informação mudar
+    //Quando eu passo o array de dependencia vazio, a função executa uma única vez quando o componente for criado. 
+    useEffect(() => {
+        const roomRef = database.ref(`rooms/${roomId}`);
+        
+        roomRef.on('value', room => {
+            //console.log(room.val());
+            const databaseRoom = room.val();
+            const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
+            
+            const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
+                return {
+                    id: key,
+                    content: value.content,
+                    author: value.author,
+                    isAnsered: value.isAnsered,
+                    isHighLighted: value.isHighLighted,
+                }
+            })
+            setTitle(databaseRoom.title);
+            setQuestions(parsedQuestions);
+            console.log(parsedQuestions);
+        })
+    }, [roomId]);
 
     function handleRedirectHome() {
         history.push("/");
@@ -61,8 +109,8 @@ export function Room() {
             </header>
             <main>
                 <div className="room-title">
-                    <h1>Sala React</h1>
-                    {/* <span>4 perguntas</span> */}
+                    <h1>Sala {title}</h1>
+                    {questions.length > 0 && <span>{questions.length} pergunta(s)</span> }
                 </div>
                 <form onSubmit={handleSendQuestion}>
                     <textarea
@@ -85,6 +133,9 @@ export function Room() {
                         <Button type="submit" disabled={!user}>Enviar pergunta</Button>
                     </div>
                 </form>
+
+                {JSON.stringify(questions)}
+
             </main>
         </div>
     );
