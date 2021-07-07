@@ -7,33 +7,17 @@ import { Question } from "../../components/Question";
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import { FormEvent, useState, useEffect } from "react";
-import { useAuth } from "../../hooks/useAuth";
 import { database } from "../../services/firebase";
+import { useAuth } from "../../hooks/useAuth";
+import { useRoom } from "../../hooks/useRoom";
+
 
 type RoomParams = {
     id: string;
 }
 
-type FirebaseQuestions = Record<string, {
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isAnsered: boolean;
-    isHighLighted: boolean;
-}>
 
-type Question = {
-    id: string,
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isAnsered: boolean;
-    isHighLighted: boolean;
-}
+
 
 export function Room() {
     const params = useParams<RoomParams>();
@@ -41,34 +25,8 @@ export function Room() {
     const roomId = params.id;
     const [newQuestion, setNewQuestion] = useState("");
     const { user } = useAuth();
-    const [questions, setQuestions] = useState<Question[]>([]);
-    const [title, setTitle] = useState("");
-
-    //É um Hook que dispara um evento, quando alguma informação mudar
-    //Quando eu passo o array de dependencia vazio, a função executa uma única vez quando o componente for criado. 
-    useEffect(() => {
-        const roomRef = database.ref(`rooms/${roomId}`);
-        
-        roomRef.on('value', room => {
-            //console.log(room.val());
-            const databaseRoom = room.val();
-            const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
-            
-            const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
-                return {
-                    id: key,
-                    content: value.content,
-                    author: value.author,
-                    isAnsered: value.isAnsered,
-                    isHighLighted: value.isHighLighted,
-                }
-            })
-            setTitle(databaseRoom.title);
-            setQuestions(parsedQuestions);
-            console.log(parsedQuestions);
-        })
-    }, [roomId]);
-
+    const { questions, title } = useRoom(roomId);
+ 
     function handleRedirectHome() {
         history.push("/");
     }
