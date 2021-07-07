@@ -1,13 +1,13 @@
+import './style.scss';
 import illustrationImg from '../../assets/images/illustration.svg';
 import logoImg from '../../assets/images/logo.svg';
-import { Button } from '../../components/Button/Button';
-import './NewRoom.scss';
+import { Button } from '../../components/Button';
 import { Link, useHistory } from "react-router-dom";
 
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { useContext, FormEvent, useState } from "react";
 
-import { database } from "../../services/firebase/firebase";
+import { database } from "../../services/firebase";
 
 export function NewRoom() {
     const { user } = useContext(AuthContext);

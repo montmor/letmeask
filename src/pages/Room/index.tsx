@@ -1,13 +1,14 @@
-import "./Room.scss";
+import "./style.scss";
 import logoImg from "../../assets/images/logo.svg";
-import { Button } from "../../components/Button/Button";
-import { RoomCode } from "../../components/RoomCode/RoomCode";
+import { Button } from "../../components/Button";
+import { RoomCode } from "../../components/RoomCode";
+import { Question } from "../../components/Question";
 
 import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import { FormEvent, useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { database } from "../../services/firebase/firebase";
+import { database } from "../../services/firebase";
 
 type RoomParams = {
     id: string;
@@ -133,9 +134,17 @@ export function Room() {
                         <Button type="submit" disabled={!user}>Enviar pergunta</Button>
                     </div>
                 </form>
-
-                {JSON.stringify(questions)}
-
+                
+                <div className="question-list">
+                    {questions.map(question => {
+                        return (
+                            <Question
+                                key={question.id}
+                                author={question.author}
+                                content={question.content}
+                            />)
+                    })}
+                </div>
             </main>
         </div>
     );
