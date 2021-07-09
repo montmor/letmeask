@@ -12,7 +12,7 @@ type QuestionType = {
   isAnsered: boolean;
   isHighLighted: boolean;
   likeCount: number;
-  hasLiked: boolean;
+  likeId: string | undefined;
 };
 
 type FirebaseQuestions = Record<
@@ -57,7 +57,9 @@ export function useRoom(roomId: string) {
           isAnsered: value.isAnsered,
           isHighLighted: value.isHighLighted,
           likeCount: Object.values(value.likes ?? {}).length,
-          hasLiked: Object.values(value.likes ?? {}).some((like) => like.authorId === user?.id),
+          likeId: Object.entries(value.likes ?? {}).find(
+            ([key, like]) => like.authorId === user?.id,
+          )?.[0],
         };
       });
       setTitle(databaseRoom.title);
