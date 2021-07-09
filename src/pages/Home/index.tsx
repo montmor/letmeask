@@ -27,6 +27,7 @@ export function Home() {
     event.preventDefault();
 
     if (roomCode.trim() === '') {
+      alert('Room not informed.');
       return;
     }
 
