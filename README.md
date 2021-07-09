@@ -99,6 +99,7 @@ https://img.shields.io/node/v-lts/teste
 
   // Iniciar projeto
   $ yarn start
-```
 
+OBS.: Para iniciar o projeto com sucesso é necessário criar uma conta grátis no firebase e inserir as credenciais conforme o arquivo: 'exemple.env'
+```
 ---
