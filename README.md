@@ -21,12 +21,10 @@ Muito massa né? 💪💪💪
 Vamos saber mais sobre essa proposta! 🚀🚀🚀
 
 ---
-
-## 📌 Tecnologias
-
-https://img.shields.io/node/v-lts/teste
 <br>
 
+## 📌 Tecnologias Utilizadas
+<br>
 <p align="center">
     <img src="https://img.shields.io/badge/HTML5-CB3837?style=for-the-badge&logo=html5&logoColor=white"/>
     <img src="https://img.shields.io/badge/CSS3-239120?style=for-the-badge&logo=css3&logoColor=white"/>
@@ -39,7 +37,14 @@ https://img.shields.io/node/v-lts/teste
 </p>
 
 ---
+<br>
 
+##  🖥️ Acesse o sistema 
+
+- Para acessar o sistema clique aqui: [https://letmeask-b9500.web.app/](https://letmeask-b9500.web.app/)
+
+<br>
+--- 
 ## 🚧 Melhorias
 
 - Usuário
@@ -68,9 +73,6 @@ https://img.shields.io/node/v-lts/teste
   - [ ] Melhorar o carregamento das perguntas
 
 ---
-
-
-
 
 ## 🗂 Material de apoio
 
