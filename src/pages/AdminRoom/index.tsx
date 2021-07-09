@@ -33,6 +33,14 @@ export function AdminRoom() {
     }
   }
 
+  async function handleEndRoom() {
+    await database.ref(`rooms/${roomId}`).update({
+      endedAt: new Date(),
+    });
+
+    handleRedirectHome();
+  }
+
   return (
     <div id="page-room">
       <header>
@@ -40,7 +48,9 @@ export function AdminRoom() {
           <img src={logoImg} alt="Letmeask" onClick={handleRedirectHome} />
           <div>
             <RoomCode code={params.id} />
-            <Button isOutLined>Encerrar Sala</Button>
+            <Button isOutLined onClick={handleEndRoom}>
+              Encerrar Sala
+            </Button>
           </div>
         </div>
       </header>
