@@ -54,7 +54,7 @@ export function Room() {
     setNewQuestion('');
   }
 
-  async function handleLikeQuestion(questionId: string) {
+  async function handleLikeQuestion(questionId: string, hasLiked: boolean) {
     const newLike = await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
       authorId: user?.id,
     });
@@ -103,12 +103,12 @@ export function Room() {
             return (
               <Question key={question.id} author={question.author} content={question.content}>
                 <button
-                  className="like-button"
+                  className={`like-button ${question.hasLiked ? 'liked' : ''}`}
                   type="button"
                   aria-label="Marcar como gostei"
-                  onClick={() => handleLikeQuestion(question.id)}
+                  onClick={() => handleLikeQuestion(question.id, question.hasLiked)}
                 >
-                  <span>10</span>
+                  {question.likeCount > 0 && <span>{question.likeCount}</span>}
                   <svg
                     width="24"
                     height="24"

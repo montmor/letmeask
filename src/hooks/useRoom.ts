@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { database } from '../services/firebase/index';
+import { useAuth } from './useAuth';
 
 type QuestionType = {
   id: string;
@@ -10,6 +11,8 @@ type QuestionType = {
   content: string;
   isAnsered: boolean;
   isHighLighted: boolean;
+  likeCount: number;
+  hasLiked: boolean;
 };
 
 type FirebaseQuestions = Record<
@@ -22,12 +25,19 @@ type FirebaseQuestions = Record<
     content: string;
     isAnsered: boolean;
     isHighLighted: boolean;
+    likes: Record<
+      string,
+      {
+        authorId: string;
+      }
+    >;
   }
 >;
 
 export function useRoom(roomId: string) {
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [title, setTitle] = useState('');
+  const { user } = useAuth();
 
   //É um Hook que dispara um evento, quando alguma informação mudar
   //Quando eu passo o array de dependencia vazio, a função executa uma única vez quando o componente for criado.
@@ -46,13 +56,18 @@ export function useRoom(roomId: string) {
           author: value.author,
           isAnsered: value.isAnsered,
           isHighLighted: value.isHighLighted,
+          likeCount: Object.values(value.likes ?? {}).length,
+          hasLiked: Object.values(value.likes ?? {}).some((like) => like.authorId === user?.id),
         };
       });
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
       console.log(parsedQuestions);
     });
-  }, [roomId]);
+    return () => {
+      roomRef.off('value');
+    };
+  }, [roomId, user?.id]);
 
   return { questions, title };
 }
