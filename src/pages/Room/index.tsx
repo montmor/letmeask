@@ -68,7 +68,7 @@ export function Room() {
     <div id="page-room">
       <header>
         <div className="content">
-          <img src={logoImg} alt="Letmeask" onClick={handleRedirectHome} />
+          <img src={logoImg} alt="Letmeask" title="Letmeask" onClick={handleRedirectHome} />
           <RoomCode code={params.id} />
         </div>
       </header>
@@ -117,6 +117,7 @@ export function Room() {
                     className={`like-button ${question.likeId ? 'liked' : ''}`}
                     type="button"
                     aria-label="Marcar como gostei"
+                    title="Like"
                     onClick={() => handleLikeQuestion(question.id, question.likeId)}
                   >
                     {question.likeCount > 0 && <span>{question.likeCount}</span>}
