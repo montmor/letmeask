@@ -41,8 +41,14 @@ main {
   align-items: stretch;
   text-align: center;
 
-  > img {
+  img {
     align-self: center;
+  }
+
+  > .avatar {
+    border-radius: 50%;
+    width: 20%;
+    margin: 10px;
   }
 
   h2 {

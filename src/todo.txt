@@ -1,0 +1,9 @@
+#### Dicas para ir para o próximo nível
+
+1) Responsividade - https://www.youtube.com/watch?v=H91DhKPjhPk
+2) Tema Dark ou Light
+3) PWA para uso em celulares
+4) Verificar outros bancos de dados (firestore, supabase, postgress)
+5) Biblioteca de CSS (Styled Components)
+6) ESlint, Prettier - https://www.youtube.com/watch?v=X2RKRKdqqwM
+7) Github bem detalhado sobre o projeto
