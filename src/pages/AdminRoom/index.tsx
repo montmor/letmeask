@@ -1,15 +1,15 @@
 import './style.scss';
 import logoImg from '../../assets/images/logo.svg';
+import deleteImg from '../../assets/images/delete.svg';
 import { Button } from '../../components/Button';
 import { RoomCode } from '../../components/RoomCode';
 import { Question } from '../../components/Question';
 
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import { FormEvent, useState, useEffect } from 'react';
-import { database } from '../../services/firebase';
-import { useAuth } from '../../hooks/useAuth';
+import { useState } from 'react';
 import { useRoom } from '../../hooks/useRoom';
+import { database } from '../../services/firebase';
 
 type RoomParams = {
   id: string;
@@ -20,38 +20,17 @@ export function AdminRoom() {
   const history = useHistory();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { questions, title } = useRoom(roomId);
 
   function handleRedirectHome() {
     history.push('/');
   }
 
-  async function handleSendQuestion(event: FormEvent) {
-    event.preventDefault();
-
-    if (newQuestion.trim() === '') {
-      alert('Digite sua pergunta...');
-      return;
+  async function handleDeleteQuestion(questionId: string) {
+    if (window.confirm('Tem certeza que deseja excluir essa pergunta?')) {
+      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
     }
-
-    if (!user) {
-      throw new Error('You must be logged in');
-    }
-
-    const question = {
-      content: newQuestion,
-      author: {
-        name: user.name,
-        avatar: user.avatar,
-      },
-      isHighLighted: false,
-      isAnsered: false,
-    };
-
-    await database.ref(`rooms/${roomId}/questions`).push(question);
-
-    setNewQuestion('');
   }
 
   return (
@@ -73,7 +52,11 @@ export function AdminRoom() {
         <div className="question-list">
           {questions.map((question) => {
             return (
-              <Question key={question.id} author={question.author} content={question.content} />
+              <Question key={question.id} author={question.author} content={question.content}>
+                <button type="button" onClick={() => handleDeleteQuestion(question.id)}>
+                  <img src={deleteImg} alt="Remover pergunta" />
+                </button>
+              </Question>
             );
           })}
         </div>
